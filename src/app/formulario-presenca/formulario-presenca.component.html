@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12 text-center">
+            <br />
+            <img src="assets/images/logo.jpg" width="200">
+            <br /><br />
+        </div>
+
+        <div class="col-md-6 col-md-offset-3" *ngIf="loading">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <p>Buscando uma sessão atual...</p>
+                    <p>
+                        <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-md-offset-3" *ngIf="loadingPost">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <p>Estamos registrando sua presença...</p>
+                    <p>
+                        <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-md-offset-3" [hidden]="loading || loadingPost">
+            <div class="panel panel-default">
+                <div class="panel-heading">Registro de Presença de Sessão</div>
+                <div class="panel-body">
+
+                    <p><b>Data:</b> {{sessao?.dt_sessao | date:'dd/MM/yyyy HH:mm'}}</p>
+                    <p><b>Tipo de Sessão:</b> {{sessao?.tipo_sessao?.no_tipo_sessao}}</p>
+
+                    <form name="form" (ngSubmit)="f.form.valid && verificarObreiro()" #f="ngForm" novalidate>
+                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !inputcpf.valid }">
+                                <input type="text" class="form-control text-center"
+                                   id="nr_cpf"
+                                   name="nr_cpf"
+                                   placeholder="Informe o número do CPF"
+                                   [(ngModel)]="cpf"
+                                   [dropSpecialCharacters]="false" mask="000.000.000-00"
+                                   #inputcpf
+                                   required />
+                            <div *ngIf="f.submitted && !inputcpf.valid" class="help-block">Informe o seu CPF</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" [disabled]="loading" class="btn btn-primary">
+                                <i class="glyphicon glyphicon-log-in"></i> Registrar
+                            </button>
+                        </div>
+                        <div *ngIf="success" class="alert alert-success">{{success}}</div>
+                        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
