@@ -3,8 +3,8 @@ podTemplate(
     inheritFrom: 'default',
     containers: [
         containerTemplate(
-            name: 'nginx',
-            image: 'nginx:1.15-alpine',
+            name: 'angular-cli',
+            image: 'teracy/angular-cli:1.5.0',
             ttyEnabled: true,
             command: 'cat'
         )
@@ -16,10 +16,10 @@ podTemplate(
                 checkout scm
                 commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
-        stage ('Listar diretórios'){
-            container ('nginx') {
+        stage ('Test'){
+            container ('angular-cli') {
                 sh 'ls -l'
-                echo '${commitId}'
+                sh 'ng test'
             }
         }
     }
