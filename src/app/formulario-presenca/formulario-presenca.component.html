@@ -44,10 +44,11 @@
                                    name="nr_cpf"
                                    placeholder="Informe o número do CPF"
                                    [(ngModel)]="cpf"
+                                   autocomplete="off"
                                    [dropSpecialCharacters]="false" mask="000.000.000-00"
                                    #inputcpf
                                    required />
-                            <div *ngIf="f.submitted && !inputcpf.valid" class="help-block">Informe o seu CPF</div>
+                            <!--<div *ngIf="f.submitted && !inputcpf.valid" class="help-block">Informe o seu CPF</div>-->
                         </div>
                         <div class="form-group">
                             <button type="submit" [disabled]="loading" class="btn btn-primary">

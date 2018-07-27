@@ -1,0 +1,20 @@
+podTemplate(
+    label: 'mypod',
+    inheritFrom: 'default',
+    containers: [
+        containerTemplate(
+            name: 'nginx',
+            image: 'nginx:1.15-alpine',
+            ttyEnabled: true,
+            command: 'cat'
+        )
+    ]
+) {
+    node('mypod') {
+         stage ('Listar diretórios'){
+            container ('nginx') {
+                sh 'ls -l'
+            }
+        }
+    }
+}

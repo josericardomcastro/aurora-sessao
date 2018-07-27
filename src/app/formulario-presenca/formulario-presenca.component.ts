@@ -61,9 +61,14 @@ export class FormularioPresencaComponent implements OnInit {
                 if (result) {
                     this.router.navigate(['/confirmacao']);
                 } else {
-                    // login failed
-                    this.error = 'Usuário e/ou senha incorreta(s)';
+                    this.cpf = null;
+                    this.error = 'Número de CPF não encontrado';
                     this.loadingPost = false;
+
+                    let interval = setTimeout(() => {
+                        this.error = null;
+                    }, 2000);
+
                 }
             }, (err) => {
                 let retorno = JSON.parse(err._body);
@@ -71,9 +76,5 @@ export class FormularioPresencaComponent implements OnInit {
                 this.loadingPost = false;
             });
     }
-
-
-
-
 
 }

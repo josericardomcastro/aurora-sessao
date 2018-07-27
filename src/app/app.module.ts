@@ -11,9 +11,10 @@ import {SessaoService} from './_services/sessao.service';
 import {HttpClientModule} from '@angular/common/http';
 import {NgxMaskModule} from 'ngx-mask';
 import {ConfirmacaoComponent} from './confirmacao/confirmacao.component';
+import {environment} from '../environments/environment';
 
 export function RestangularConfigFactory (RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://localhost:8000/api/');
+    RestangularProvider.setBaseUrl(environment.api);
 }
 
 @NgModule({
