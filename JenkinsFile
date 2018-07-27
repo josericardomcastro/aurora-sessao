@@ -24,6 +24,7 @@ podTemplate(
         stage ('Build deploy'){
             container ('angular-cli') {
                 sh 'ng build --prod'
+                sh 'ls -l build'
             }
         }
     }
