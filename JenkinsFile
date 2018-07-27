@@ -16,15 +16,15 @@ podTemplate(
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
-        stage ('Build Install'){
+        stage ('Build Dependencies'){
             container ('angular-cli') {
                     sh 'npm install'
                 }
             }
-        stage ('Build deploy'){
+        stage ('Build source'){
             container ('angular-cli') {
                 sh 'ng build --prod'
-                sh 'ls -l build'
+                sh 'ls -l'
             }
         }
     }
