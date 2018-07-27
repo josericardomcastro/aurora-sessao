@@ -11,9 +11,15 @@ podTemplate(
     ]
 ) {
     node('mypod') {
-         stage ('Listar diretórios'){
+        def commitId
+        stage ('Extract') {
+                checkout scm
+                commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+        }
+        stage ('Listar diretórios'){
             container ('nginx') {
                 sh 'ls -l'
+                echo '${commitId}'
             }
         }
     }
