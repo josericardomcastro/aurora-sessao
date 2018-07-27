@@ -12,19 +12,18 @@ podTemplate(
 ) {
     node('mypod') {
         def commitId
-        stage ('Extract') {
-                checkout scm
-                commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+        stage ('Git Checkout') {
+            checkout scm
+            commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
-        stage ('Build'){
+        stage ('Build Install'){
             container ('angular-cli') {
                     sh 'npm install'
                 }
             }
-        stage ('Test'){
+        stage ('Build deploy'){
             container ('angular-cli') {
-                sh 'ls -l'
-                sh 'ng test'
+                sh 'ng build --prod'
             }
         }
     }
