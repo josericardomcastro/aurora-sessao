@@ -10,6 +10,7 @@ export class SessaoService {
 
     protected servico: any;
     private api = environment.api;
+    private publicurl = environment.publicUrl;
 
     constructor(
         private http: Http,
@@ -32,7 +33,7 @@ export class SessaoService {
 
     getPublicUrl()
     {
-        return this.api;
+        return this.publicurl;
     }
 
 
