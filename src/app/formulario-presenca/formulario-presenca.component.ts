@@ -15,9 +15,12 @@ export class FormularioPresencaComponent implements OnInit {
     loading = false;
     loadingPost = false;
     error = null;
-    success = null;
+    mostrarConfirmacao: boolean = false;
     cpf = null;
     obreiro = null;
+    imagemPerfil: string = null;
+
+    sessaoAtiva: boolean = true;
 
     constructor(private router: Router,
                 private sessaoService: SessaoService) { }
@@ -28,23 +31,25 @@ export class FormularioPresencaComponent implements OnInit {
 
     ngAfterViewInit() {
         this.inputEl.nativeElement.focus();
-        console.log(this.inputEl);
     }
 
     getSessaoAtual() {
         this.loading = true;
         this.sessaoService.getSessaoAtual({})
             .subscribe(resultado => {
-                this.sessao = resultado;
                 this.loading = false;
+                this.sessao = resultado;
+                this.sessaoAtiva = ( this.sessao.hasOwnProperty('id_sessao') ) ? true : false;
             });
     }
 
     verificarObreiro(){
+        this.loadingPost = true;
         this.sessaoService.getObreiro(this.cpf)
             .subscribe(resultado => {
                 if (resultado.hasOwnProperty('id_pessoa')){
                     this.obreiro = resultado;
+                    this.imagemPerfil = this.sessaoService.getPublicUrl()+"/photos/"+this.obreiro.id_pessoa+".jpg";
                     this.registrarPresenca(this.sessao.id_sessao, this.obreiro)
                 }else {
                     this.error = "CPF não encontrado!";
@@ -59,7 +64,15 @@ export class FormularioPresencaComponent implements OnInit {
         this.sessaoService.registrarPresenca (id_sessao, obreiro)
             .subscribe(result => {
                 if (result) {
-                    this.router.navigate(['/confirmacao']);
+                    this.mostrarConfirmacao = true;
+                    this.loading = false;
+                    this.loadingPost = false;
+
+                    let interval = setInterval(() => {
+                        window.location.reload();
+                    }, 5000);
+
+
                 } else {
                     this.cpf = null;
                     this.error = 'Número de CPF não encontrado';

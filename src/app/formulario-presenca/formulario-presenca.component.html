@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-md-offset-3" *ngIf="loadingPost">
+        <div class="col-md-6 col-md-offset-3" *ngIf="loadingPost && !mostrarConfirmacao">
             <div class="panel panel-default">
                 <div class="panel-body text-center">
                     <p>Estamos registrando sua presença...</p>
@@ -31,8 +31,10 @@
 
         <div class="col-md-6 col-md-offset-3" [hidden]="loading || loadingPost">
             <div class="panel panel-default">
+
                 <div class="panel-heading">Registro de Presença de Sessão</div>
-                <div class="panel-body">
+
+                <div class="panel-body" *ngIf="this.sessaoAtiva && !mostrarConfirmacao">
 
                     <p><b>Data:</b> {{sessao?.dt_sessao | date:'dd/MM/yyyy HH:mm'}}</p>
                     <p><b>Tipo de Sessão:</b> {{sessao?.tipo_sessao?.no_tipo_sessao}}</p>
@@ -59,6 +61,31 @@
                         <div *ngIf="error" class="alert alert-danger">{{error}}</div>
                     </form>
                 </div>
+
+                <div class="panel-body" *ngIf="!this.sessaoAtiva && !mostrarConfirmacao">
+                    <div class="alert alert-danger">Nenhuma sessão ativa.</div>
+                </div>
+
+                <div class="panel-body" *ngIf="mostrarConfirmacao">
+
+                    <div class="row">
+
+                        <div class="col-md-8">
+                            <p>Prezado, <b>{{obreiro.pessoa.no_pessoa}}</b>,</p>
+                            <p>Sua presença foi registrada com sucesso!</p>
+                            <br />
+                            <p>Agradecemos sua presença.<br />Aurora de Brasília</p>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="{{imagemPerfil}}"
+                                 onError="this.src='assets/images/profile-default.png'"
+                                 class="img-rounded img-thumbnail" />
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 

@@ -30,6 +30,11 @@ export class SessaoService {
         return this.httpClient.post(`${this.api}/sessao/${id_sessao}/registrar-presenca`,obreiro);
     }
 
+    getPublicUrl()
+    {
+        return this.api;
+    }
+
 
 
     private handleErrorObservable (error: Response | any)
