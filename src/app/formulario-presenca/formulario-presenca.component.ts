@@ -20,6 +20,8 @@ export class FormularioPresencaComponent implements OnInit {
     obreiro = null;
     imagemPerfil: string = null;
 
+    participantes: any = false;
+
     sessaoAtiva: boolean = true;
 
     constructor(private router: Router,
@@ -27,10 +29,11 @@ export class FormularioPresencaComponent implements OnInit {
 
     ngOnInit() {
         this.getSessaoAtual();
+
     }
 
     ngAfterViewInit() {
-        this.inputEl.nativeElement.focus();
+
     }
 
     getSessaoAtual() {
@@ -40,6 +43,16 @@ export class FormularioPresencaComponent implements OnInit {
                 this.loading = false;
                 this.sessao = resultado;
                 this.sessaoAtiva = ( this.sessao.hasOwnProperty('id_sessao') ) ? true : false;
+                setTimeout(_ => this.inputEl.nativeElement.focus(), 0);
+                this.listarParticipantes();
+            });
+    }
+
+    listarParticipantes(){
+        this.sessaoService.getParticipantes(this.sessao.id_sessao)
+            .subscribe(resultado => {
+                this.participantes = resultado;
+                console.log(this.participantes);
             });
     }
 
@@ -52,8 +65,11 @@ export class FormularioPresencaComponent implements OnInit {
                     this.imagemPerfil = this.sessaoService.getPublicUrl()+"/photos/"+this.obreiro.id_pessoa+".jpg";
                     this.registrarPresenca(this.sessao.id_sessao, this.obreiro)
                 }else {
+                    this.loading = this.loadingPost = false;
+                    this.mostrarConfirmacao = false;
                     this.error = "CPF não encontrado!";
                     this.cpf = null;
+                    setTimeout(_ => this.inputEl.nativeElement.focus(), 0);
                 }
             });
     }
@@ -64,14 +80,20 @@ export class FormularioPresencaComponent implements OnInit {
         this.sessaoService.registrarPresenca (id_sessao, obreiro)
             .subscribe(result => {
                 if (result) {
-                    this.mostrarConfirmacao = true;
-                    this.loading = false;
-                    this.loadingPost = false;
+
+                    if (result.hasOwnProperty('id_pessoa')) {
+                        this.mostrarConfirmacao = true;
+                        this.loading = false;
+                        this.loadingPost = false;
+                    }else{
+                        this.cpf = null;
+                        this.error = result.error;
+                        this.loadingPost = false;
+                    }
 
                     let interval = setInterval(() => {
                         window.location.reload();
                     }, 5000);
-
 
                 } else {
                     this.cpf = null;

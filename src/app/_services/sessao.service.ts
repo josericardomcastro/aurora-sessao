@@ -23,6 +23,10 @@ export class SessaoService {
         return this.servico.customGET('atual', params);
     }
 
+    getParticipantes(cpf): Observable<any> {
+        return this.servico.customGET(cpf+'/participantes');
+    }
+
     getObreiro(cpf): Observable<any> {
         return this.servico.customGET(cpf+'/obreiro');
     }
