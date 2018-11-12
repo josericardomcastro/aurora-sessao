@@ -21,6 +21,7 @@ export class FormularioPresencaComponent implements OnInit {
     imagemPerfil: string = null;
 
     participantes: any = false;
+    totalParticipantes: number = 0;
 
     sessaoAtiva: boolean = true;
 
@@ -52,7 +53,7 @@ export class FormularioPresencaComponent implements OnInit {
         this.sessaoService.getParticipantes(this.sessao.id_sessao)
             .subscribe(resultado => {
                 this.participantes = resultado;
-                console.log(this.participantes);
+                this.totalParticipantes = parseInt(resultado.count);
             });
     }
 
@@ -79,15 +80,15 @@ export class FormularioPresencaComponent implements OnInit {
 
         this.sessaoService.registrarPresenca (id_sessao, obreiro)
             .subscribe(result => {
-                if (result) {
-
-                    if (result.hasOwnProperty('id_pessoa')) {
+                let resultado : any = result;
+                if (resultado) {
+                    if (resultado.hasOwnProperty('id_pessoa')) {
                         this.mostrarConfirmacao = true;
                         this.loading = false;
                         this.loadingPost = false;
                     }else{
                         this.cpf = null;
-                        this.error = result.error;
+                        this.error = resultado.error;
                         this.loadingPost = false;
                     }
 

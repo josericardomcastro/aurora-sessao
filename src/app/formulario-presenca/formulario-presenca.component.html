@@ -103,8 +103,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let participante of participantes; let i = index">
-                        <td>{{i+1}}</td>
+                    <tr *ngFor="let participante of participantes.items; let i = index">
+                        <td>{{totalParticipantes-(i)}}</td>
                         <td>{{participante.pessoa.no_pessoa}}</td>
                     </tr>
                 </table>
