@@ -68,7 +68,7 @@ export class FormularioPresencaComponent implements OnInit {
                 }else {
                     this.loading = this.loadingPost = false;
                     this.mostrarConfirmacao = false;
-                    this.error = "CPF não encontrado!";
+                    this.error = "CPF ou CIM não encontrado!";
                     this.cpf = null;
                     setTimeout(_ => this.inputEl.nativeElement.focus(), 0);
                 }
