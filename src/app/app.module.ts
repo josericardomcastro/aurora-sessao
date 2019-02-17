@@ -12,16 +12,28 @@ import {HttpClientModule} from '@angular/common/http';
 import {NgxMaskModule} from 'ngx-mask';
 import {ConfirmacaoComponent} from './confirmacao/confirmacao.component';
 import {environment} from '../environments/environment';
+import {AuthenticationService} from './_services/authentication.service';
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from './_guards/auth.guard';
 
 export function RestangularConfigFactory (RestangularProvider) {
     RestangularProvider.setBaseUrl(environment.api);
+
+    RestangularProvider.addFullRequestInterceptor((element, operation, path, url, headers, params) => {
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        var token = currentUser && currentUser.token;
+        // console.log('token',token);
+        return {
+            headers: Object.assign({}, headers, {Authorization: `Bearer ${token}`})
+        };
+    });
 }
 
 @NgModule({
     declarations: [
         AppComponent,
-        FormularioPresencaComponent,
-        ConfirmacaoComponent
+        ConfirmacaoComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +45,9 @@ export function RestangularConfigFactory (RestangularProvider) {
         RestangularModule.forRoot(RestangularConfigFactory)
     ],
     providers: [
-        SessaoService
+        SessaoService,
+        AuthenticationService,
+        AuthGuard
     ],
     bootstrap: [AppComponent]
 

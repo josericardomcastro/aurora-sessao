@@ -13,7 +13,7 @@ export class ConfirmacaoComponent implements OnInit {
 
     ngOnInit() {
         let interval = setInterval(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['']);
         }, 3000);
     }
 
